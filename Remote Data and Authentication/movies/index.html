@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie List</title>
+</head>
+<body>
+    <h1>Best movies</h1>
+    <h3>Add movie</h3>
+
+    <form action="/movies" method="post" id="add-movie-form">
+        <label for="movie-title">Title</label>
+        <input type="text" id="movie-title" name="title"/>
+
+        <label for="movie-description">Description</label>
+        <textarea name="description" id="movie-description"></textarea>
+
+        <input type="radio" name="gender" value="male"/>
+        <input type="radio" name="gender" value="female"/>
+        <input type="checkbox" name="hobbies" value="sports"/>
+        <input type="checkbox" name="hobbies" value="sky diving"/>
+        <input type="reset" name="">
+
+        <input type="submit" value="Add Movie">
+    </form>
+
+    <script>
+        let movieForm = document.getElementById('add-movie-form');
+        movieForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            let formData = new FormData(e.currentTarget);
+            console.log([...formData.entries()])
+        })
+    </script>
+
+</body>
+</html>
