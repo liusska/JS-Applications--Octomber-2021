@@ -3,21 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Movie List</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Best movies</h1>
-    <h3>Add movie</h3>
+<h1>Best movies</h1>
 
-    <h3>Register form</h3>
+
+<section class="register-section">
+    <h3>Register</h3>
     <form id="register-form">
         <label for="email">Email</label>
         <input type="text" id="email" name="email"/>
 
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" />
-        <input type="submit" value="register" />
+        <input type="password" id="password" name="password"/>
+        <input type="submit" value="register"/>
     </form>
 
+    <h3>Login</h3>
+    <form id="login-form">
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email"/>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password"/>
+        <input type="submit" value="login"/>
+    </form>
+</section>
+
+<section class="add-movie-section hide">
+    <h3>Add movie</h3>
     <form action="/movies" method="post" id="add-movie-form">
         <label for="movie-title">Title</label>
         <input type="text" id="movie-title" name="title"/>
@@ -25,34 +40,150 @@
         <label for="movie-description">Description</label>
         <textarea name="description" id="movie-description"></textarea>
 
-        <input type="radio" name="gender" value="male"/>
-        <input type="radio" name="gender" value="female"/>
-        <input type="checkbox" name="hobbies" value="sports"/>
-        <input type="checkbox" name="hobbies" value="sky diving"/>
-        <input type="reset" name="">
+        <label for="image-url"></label>
+        <input type="text" id="image-url" name="imageUrl" />
+
+<!--        <input type="reset" name="">-->
         <input type="submit" value="Add Movie">
     </form>
+</section>
 
-    <script>
-        let baseUrl = 'http://localhost:3030'
-        let movieForm = document.getElementById('add-movie-form');
-        let registerForm = document.getElementById('register-form');
+<section class="all-movies">
+    <button id="show-all-movies">Show all movies</button>
+    <div id="movie-list"></div>
+</section>
 
-        registerForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            let data = new FormData(e.currentTarget);
 
-            console.log(data.get('email'));
-            console.log(data.get('password'));
-        });
+<script>
+    let baseUrl = 'http://localhost:3030'
+    let movieForm = document.getElementById('add-movie-form');
+    let registerForm = document.getElementById('register-form');
+    let loginForm = document.getElementById('login-form');
+    let showAllMoviesBtn = document.querySelector('#show-all-movies');
+    let movieList = document.querySelector('#movie-list');
 
-        movieForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+    let registerSection = document.querySelector('.register-section');
+    let addMovieSection = document.querySelector('.add-movie-section');
 
-            let formData = new FormData(e.currentTarget);
-            console.log([...formData.entries()])
-        });
-    </script>
+    registerForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        let data = new FormData(e.currentTarget);
+
+        fetch(`${baseUrl}/users/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: data.get('email'),
+                password: data.get('password')
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                saveToken(data.accessToken)
+                console.log(data);
+                registerSection.classList.add('hide');
+                addMovieSection.classList.remove('hide');
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
+    });
+
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        let data = new FormData(e.currentTarget);
+
+        fetch(`${baseUrl}/users/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: data.get('email'),
+                password: data.get('password')
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                saveToken(data.accessToken)
+                console.log(data);
+                registerSection.classList.add('hide');
+                addMovieSection.classList.remove('hide');
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
+    });
+
+    movieForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        let formData = new FormData(e.currentTarget);
+
+        let title = formData.get('title');
+        let description = formData.get('description');
+        let imageUrl = formData.get('imageUrl')
+        let token = getToken();
+
+        fetch(`${baseUrl}/data/movies`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application.json',
+                'X-Authorization': token
+            },
+            body: JSON.stringify({
+                title,
+                description,
+                imageUrl
+            }),
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+        })
+        .catch(err => {
+            console.log('There is a problem')
+        })
+
+        e.currentTarget.reset();
+    });
+
+    showAllMoviesBtn.addEventListener('click', () => {
+       fetch(`${baseUrl}/data/movies`)
+        .then(res => res.json())
+        .then(movies => {
+            movies.forEach(movie => {
+                let movieElement = document.createElement('article');
+                let headerElement = document.createElement('h4');
+                headerElement.textContent = movie.title;
+                let contentElement = document.createElement('p');
+                let posterElement = document.createElement('img');
+                posterElement.setAttribute('src', movie.imageUrl);
+                contentElement.textContent = movie.description;
+
+                movieElement.appendChild(headerElement);
+                movieElement.appendChild(posterElement);
+                movieElement.appendChild(contentElement);
+                movieList.appendChild(movieElement);
+            })
+        })
+    });
+
+    function saveToken(token) {
+        localStorage.setItem('auth_token', token)
+    }
+
+    function getToken(){
+        let token = localStorage.getItem('auth_token');
+        return token;
+    }
+
+</script>
 
 </body>
 </html>
