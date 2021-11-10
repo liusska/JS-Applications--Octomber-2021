@@ -52,6 +52,7 @@ window.addEventListener('load', async () => {
         document.getElementById('guest').style.display = 'inline-block';
     }else{
         document.getElementById('user').style.display = 'inline-block';
+        document.getElementById('logoutBtn').addEventListener('click', logout);
     }
 
     const main = document.querySelector('main');
@@ -87,4 +88,21 @@ function e(type, attributes, ...content) {
     });
 
     return result;
+}
+
+async function logout() {
+    const url = 'http://localhost:3030/users/logout/'
+    const token = localStorage.getItem('token');
+
+    const res = await fetch(url, {
+        method: 'get',
+        headers: {
+            'X-Authorization': token
+        },
+    });
+
+
+    localStorage.removeItem('token')
+    window.location = 'index.html';
+
 }
