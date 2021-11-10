@@ -61,6 +61,7 @@ window.addEventListener('load', async () => {
 
     main.innerHTML = '';
     cards.forEach(c => main.appendChild(c));
+
 });
 
 function e(type, attributes, ...content) {
