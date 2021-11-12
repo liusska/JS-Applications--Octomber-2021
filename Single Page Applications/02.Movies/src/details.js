@@ -8,6 +8,6 @@ const section = document.getElementById('movie-details');
 section.remove();
 
 // display logic
-export function showDetails(){
+export function showDetails(movieId){
     showView(section);
 }

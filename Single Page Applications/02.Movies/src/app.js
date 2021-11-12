@@ -22,6 +22,9 @@ document.querySelector('nav').addEventListener('click', (e) => {
     }
 });
 
+// Start application in home view(catalog)
+showHome();
+
 
 // Order of views
 // - catalog (home view)
@@ -32,5 +35,3 @@ document.querySelector('nav').addEventListener('click', (e) => {
 // - edit
 // - delete
 
-// Start application in home view(catalog)
-showHome();
