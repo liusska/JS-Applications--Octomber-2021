@@ -11,7 +11,7 @@ import {showRegister} from "./register.js";
 const views = {
     'homeLink': showHome,
     'loginLink': showLogin,
-    'registerLink': showRegister
+    'registerLink': showRegister,
 };
 
 const nav = document.querySelector('nav');
@@ -35,7 +35,9 @@ export function updateNav(){
         nav.querySelector('#welcomeMsg').textContent = `Welcome, ${userData.email}`;
         [...nav.querySelectorAll('.user')].forEach(e => e.style.display = 'block');
         [...nav.querySelectorAll('.guest')].forEach(e => e.style.display = 'none');
+
     }else{
+
         [...nav.querySelectorAll('.user')].forEach(e => e.style.display = 'none');
         [...nav.querySelectorAll('.guest')].forEach(e => e.style.display = 'block');
     }
