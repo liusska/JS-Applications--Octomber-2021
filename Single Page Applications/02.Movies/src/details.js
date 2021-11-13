@@ -1,4 +1,5 @@
 import { showView, e } from "./dom.js";
+import { showHome } from "./home.js";
 
 
 // initialization
@@ -49,7 +50,7 @@ function createDetails(movie, likes, hasLiked){
     const userData = JSON.parse(sessionStorage.getItem('userData'));
     if (userData !== null){
         if (userData.id === movie._ownerId){
-            controls.appendChild(e('a', {className: 'btn btn-danger', href: '#'}, 'Delete'));
+            controls.appendChild(e('a', {className: 'btn btn-danger', href: '#', onclick: onDelete }, 'Delete'));
             controls.appendChild(e('a', {className: 'btn btn-warning', href: '#'}, 'Edit'));
         }else {
             if (hasLiked.length > 0){
@@ -101,6 +102,15 @@ function createDetails(movie, likes, hasLiked){
         showDetails(movie._id);
     }
 
+    async function onDelete(){
+        await fetch('http://localhost:3030/data/movies/' + movie._id, {
+            method: 'delete',
+            headers: {
+                'X-Authorization': userData.token
+            },
+        })
+        showHome();
+    }
 }
 
 
