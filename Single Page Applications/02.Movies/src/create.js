@@ -40,7 +40,7 @@ async function onCreate(e){
 
     const userData = JSON.parse(sessionStorage.getItem('userData'));
 
-    if (!userData) {
+    if (userData === null) {
         showHome();
     }
 

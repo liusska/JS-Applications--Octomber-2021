@@ -112,3 +112,5 @@ function createDetails(movie, likes, hasLiked){
         showHome();
     }
 }
+
+
