@@ -60,6 +60,7 @@ async function onCreate(e){
         }
 
         const movie = await res.json();
+        form.reset()
         showHome()
 
     }catch (err){

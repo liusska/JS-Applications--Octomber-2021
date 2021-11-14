@@ -32,10 +32,12 @@ showHome();
 export function updateNav(){
     const userData = JSON.parse(sessionStorage.getItem('userData'));
     if (userData != null){
+        // document.getElementById('addBtn').style.display = 'block';
         nav.querySelector('#welcomeMsg').textContent = `Welcome, ${userData.email}`;
         [...nav.querySelectorAll('.user')].forEach(e => e.style.display = 'block');
         [...nav.querySelectorAll('.guest')].forEach(e => e.style.display = 'none');
     }else{
+        // document.getElementById('addBtn').style.display = 'null';
         [...nav.querySelectorAll('.user')].forEach(e => e.style.display = 'none');
         [...nav.querySelectorAll('.guest')].forEach(e => e.style.display = 'block');
     }
