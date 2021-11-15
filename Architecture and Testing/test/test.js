@@ -4,9 +4,9 @@ const { expect } = require('chai');
 let browser, page; // Declare reusable variables
 
 describe('E2E tests', async function() {
-    this.timeout(10000);
+    this.timeout(60000);
 
-    before(async () => { browser = await chromium.launch(); });
+    before(async () => { browser = await chromium.launch({ headless: false, slowMo: 2000 }); });
     after(async () => { await browser.close(); });
     beforeEach(async () => { page = await browser.newPage(); });
     afterEach(async () => { await page.close(); });
@@ -51,5 +51,12 @@ describe('E2E tests', async function() {
 
         const visible = await page.isVisible('.accordion p');
         expect(visible).to.be.false;
-    })
+    });
+
+    it('form input', async () => {
+        await page.goto('http://localhost:5500');
+        await page.fill('[name="email"]', 'Peter');
+        await page.waitForTimeout(60000);
+
+    });
 });
