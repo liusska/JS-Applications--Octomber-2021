@@ -1,0 +1,24 @@
+[
+    {
+        "title": "First article",
+        "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard",
+        "author": "John Smith",
+        "color": "green",
+        "comments": []
+    },
+        {
+        "title": "Second article",
+        "content": "dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        "author": "PEter Johnson",
+        "color": "blue",
+        "disabled": true,
+        "comments": []
+    },
+        {
+        "title": "Third article",
+        "content": "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+        "author": "Marie Curie",
+        "color": "red",
+        "comments": []
+    }
+]
