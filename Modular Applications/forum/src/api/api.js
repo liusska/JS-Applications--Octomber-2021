@@ -1,5 +1,6 @@
 import { clearUserData, getUserData, setUserData } from '../util.js';
 
+
 const host = 'http://localhost:3030';
 
 async function request(url, options){

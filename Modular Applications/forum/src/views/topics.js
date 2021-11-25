@@ -1,28 +1,23 @@
-import { html } from '../lib.js';
+import { getAllTopics } from '../api/data.js';
+import { html, until } from '../lib.js';
 
-const topicsTemplate = () => html`
+const topicsTemplate = (topicsPromise) => html`
 <h1>Topics</h1>
 <div>
-    <article class="preview drop">
-        <header><a href="#">Topic Title 1</a></header>
-        <div>
-            <div>Comments: 15</div>
-        </div>
-    </article>
-    <article class="preview drop">
-        <header><a href="#">Topic Title 2</a></header>
-        <div>
-            <div>Comments: 15</div>
-        </div>
-    </article>
-    <article class="preview drop">
-        <header><a href="#">Topic Title 3</a></header>
-        <div>
-            <div>Comments: 15</div>
-        </div>
-    </article>
+    ${until(topicsPromise, html`<p class="spinner">Loading &hellip;</p>`)}
 </div>`;
 
+const topicPreviewCard = (topic) => html`
+<article class="preview drop">
+    <header><a href=${`./topic/${topic._id}`}>${topic.title}</a></header>
+    <div><div>Comments: 15</div></div>
+</article>`
+
 export function topicsPage(ctx){
-    ctx.render(topicsTemplate());
+    ctx.render(topicsTemplate(loadTopics()));
+}
+
+async function loadTopics(){
+    const topics = await getAllTopics();
+    return topics.map(topicPreviewCard);
 }
