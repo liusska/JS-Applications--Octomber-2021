@@ -64,8 +64,10 @@ label {
 
 label span{
     display: inline-block;
-    width: 100px;
+    width: 120px;
     text-align: left;
+    text-align: right;
+    margin: 8px;
 }
 
 .narrow{
@@ -92,4 +94,12 @@ label span{
 
 form{
     margin: 16px 32px;
+}
+
+.error input{
+    border: 1px solid red;
+}
+
+.error-msg {
+    color: red;
 }

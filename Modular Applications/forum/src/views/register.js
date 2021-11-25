@@ -1,17 +1,68 @@
+import { input } from '../common/input.js';
 import { html } from '../lib.js';
+import { createSubmitHandler } from '../util.js';
+import { register } from '../api/data.js';
 
-const registerTemplate = () => html`
+
+const registerTemplate = (onSubmit, errorMsg, errors, values) => html`
 <div class="narrow drop center">
 <header><h1>Register</h1></header>
-<form>
-    <label><span>Email</span><input type="text" name="email"></label>
-    <label><span>Password</span><input type="password" name="password"></label>
-    <label><span>Repeat</span><input type="password" name="repass"></label>
+<form @submit=${onSubmit}>
+    ${errorMsg ? html`<p class="error-msg">${errorMsg}</p>` : null}
+    ${input('Email', 'text', 'email', values.email, errors.email)}
+    ${input('Display Name', 'text', 'username', values.username, errors.username)}
+    ${input('Password', 'password', 'password', values.password, errors.password)}
+    ${input('Repeat', 'password', 'repass', values.repass, errors.repass)}
+
+    <!-- <label><span>Email</span><input type="text" name="email" .value=${values.email}></label>
+    <label><span>Display Name</span><input type="text" name="username" .value=${values.username}></label>
+    <label><span>Password</span><input type="password" name="password" .value=${values.password}></label>
+    <label><span>Repeat</span><input type="password" name="repass" .value=${values.repass}></label> -->
 
     <input class="action" type="submit" value="Sign Un">
 </form>
 </div>`;
 
 export function registerPage(ctx){
-    ctx.render(registerTemplate());
+    update();
+
+    function update(errorMsg, errors = {}, values = {}){
+        ctx.render(registerTemplate(createSubmitHandler(
+        onSubmit,
+        'email',
+        'username', 
+        'password', 
+        'repass'
+    ),errorMsg, errors, values));
+    }
+
+    async function onSubmit(data, event){
+        try {
+            const missing = Object.entries(data).filter(([k, v]) => v=='');
+            if (missing.length > 0){
+                const errors = missing.reduce((a, [k]) => Object.assign(a, {[k]: true}), {});
+                throw {
+                    error: new Error('All fields are required!'),
+                    errors
+                };
+            }
+            if (data.password != data.repass){
+                throw {
+                    error: new Error('Passwords don\'t match!'),
+                    errors: {
+                        password: true,
+                        repass: true
+                    }
+                };
+            }
+
+            await register(data.email, data.username, data.password);
+            event.target.reset();
+            ctx.updateUserNav;
+            page.redirect('/topics');
+        }catch(err) {
+            const message = err.message || err.error.message;
+            update(message, err.errors, data);
+        }
+    }
 }
