@@ -1339,6 +1339,23 @@
     	}
     };
     var seedData = {
+		topics: {
+    		"3987279d-0ad4-4afb-8ca9-5b256ae3b298": {
+    			_ownerId: "35c62d76-8152-4626-8712-eeb96381bea8",
+				title: "My first Topic",
+    			_createdOn: 1613551279012
+    		},
+    		"8f414b4f-ab39-4d36-bedb-2ad69da9c830": {
+    			_ownerId: "35c62d76-8152-4626-8712-eeb96381bea8",
+				title: "Topic created from Admin Panel",
+    			_createdOn: 1613551344360
+    		},
+    		"985d9eab-ad2e-4622-a5c8-116261fb1fd2": {
+    			_ownerId: "847ec027-f659-4086-8032-5173e2f9c93a",
+				title: "Random Topic",
+    			_createdOn: 1613551388703
+    		},
+		topicComments: {},
     	recipes: {
     		"3987279d-0ad4-4afb-8ca9-5b256ae3b298": {
     			_ownerId: "35c62d76-8152-4626-8712-eeb96381bea8",
