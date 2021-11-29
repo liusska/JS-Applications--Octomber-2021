@@ -7,11 +7,12 @@ import { getUserData } from './util.js';
 import { createPage } from './views/create.js';
 import { detailsPage } from './views/details.js';
 import { editPage } from './views/edit.js';
-import { myBooksPage } from './views/my-books.js'
+import { myBooksPage } from './views/my-books.js';
+import { searchPage } from './views/search.js';
 
 /* debug */
-import * as api from './api/data.js';
-window.api = api;
+// import * as api from './api/data.js';
+// window.api = api;
 
 const root = document.getElementById('site-content');
 
@@ -25,6 +26,7 @@ page('/create', createPage);
 page('/details/:id', detailsPage);
 page('/edit/:id', editPage);
 page('/my-books', myBooksPage);
+page('/search', searchPage);
 
 updateUserNav();
 page.start();
