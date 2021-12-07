@@ -30,10 +30,8 @@ export function loginPage(ctx){
             if(username == '' || password == ''){
             throw {
                 message: 'Please fill all fields!',
-                errors: {
-                    name: true,
-                    password: true
-                }
+                username: true,
+                password: true
             };
         }
 

@@ -9,7 +9,7 @@ export default function initialize(){
         ctx.render = boundRender;
         ctx.updateUserNav = updateUserNav;
         next();
-    }
+    };
 
     function updateUserNav(){
         const userData = getUserData()
